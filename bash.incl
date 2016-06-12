@@ -9,7 +9,7 @@ HERE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # Ensures a path component is present without adding it redundantly.
 pathadd() {
   if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
-    PATH="${PATH:+"$PATH:"}$1"
+    PATH="$1${PATH:+":$PATH"}"
     echo "Added to PATH: $1"
   else
     echo "Did not add to PATH: $1"
@@ -56,8 +56,10 @@ source "$HERE/tools/google-cloud-sdk/completion.bash.inc"
 # Set GOROOT since we're not putting Go in the normal place.
 # See http://dave.cheney.net/2013/06/14/you-dont-need-to-set-goroot-really
 export GOROOT=$HERE/tools/go
-
 pathadd $HERE/tools/go/bin
+
+export GOPATH=$HERE/go
+pathadd $HERE/go/bin
 
 ###############################################################################
 # Java SDK
