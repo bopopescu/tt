@@ -1,5 +1,11 @@
 // Place your settings in this file to overwrite default and user settings.
 {
+    "editor.insertSpaces": false,
+    "editor.autoClosingBrackets": false,
+    "editor.tabSize": 2,
+    "editor.useTabStops": true,
+    "editor.trimAutoWhitespace": false,
+
     "go.buildOnSave": true,
     "go.lintOnSave": true,
     "go.vetOnSave": true,
