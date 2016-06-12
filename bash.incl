@@ -1,0 +1,66 @@
+
+# Please source this file into your ~/.bash_profile.
+
+###############################################################################
+# Internal helpers.
+###############################################################################
+HERE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Ensures a path component is present without adding it redundantly.
+pathadd() {
+  if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
+    PATH="${PATH:+"$PATH:"}$1"
+    echo "Added to PATH: $1"
+  else
+    echo "Did not add to PATH: $1"
+  fi
+}
+
+###############################################################################
+# Sanity-check that the environment is right and set up variables.
+###############################################################################
+if [ ! -d $TT_HOME/projects ]; then
+	echo "WARNING: TT_HOME doesn't look right; please set it before sourcing $HERE/bash.incl"
+fi
+
+###############################################################################
+# Enhance the command-line support for Git, including the prompt.
+###############################################################################
+source $HERE/tools/etc/git-completion.bash
+source $HERE/tools/etc/git-prompt.sh
+
+# Sweet sweet prompt.
+export PS1='$(__git_ps1 "%s"):\w\$ '
+
+# Make sure there FS pre-commit hook is activated. 
+# cd $TT_HOME/.git/hooks
+# ln -s $TT_HOME/etc/git/hooks/pre-commit 2>/dev/null
+
+###############################################################################
+# Convenient aliases
+###############################################################################
+alias tt='cd $TT_HOME'
+
+###############################################################################
+# Google Cloud SDK
+###############################################################################
+# The next line updates PATH for the Google Cloud SDK.
+source "$HERE/tools/google-cloud-sdk/path.bash.inc"
+
+# The next line enables shell command completion for gcloud.
+source "$HERE/tools/google-cloud-sdk/completion.bash.inc"
+
+###############################################################################
+# Go SDK
+###############################################################################
+# Set GOROOT since we're not putting Go in the normal place.
+# See http://dave.cheney.net/2013/06/14/you-dont-need-to-set-goroot-really
+export GOROOT=$HERE/tools/go
+
+pathadd $HERE/tools/go/bin
+
+###############################################################################
+# Java SDK
+###############################################################################
+# export JAVA_HOME=$HERE/tools/jdk
+# pathadd $JAVA_HOME/bin
